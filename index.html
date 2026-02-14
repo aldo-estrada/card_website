@@ -33,6 +33,11 @@
             background: #fff;
             border-radius: 5px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .envelope.open {
+            overflow: visible;
         }
 
         .envelope:focus {
@@ -103,7 +108,7 @@
             transform: translate(-50%, -50%);
             width: 60px;
             height: 60px;
-            z-index: 4;
+            z-index: 10;
             transition: opacity 0.3s ease;
         }
 
