@@ -35,6 +35,11 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
+        .envelope:focus {
+            outline: 3px solid #ff4757;
+            outline-offset: 5px;
+        }
+
         .envelope-flap {
             position: absolute;
             top: 0;
@@ -239,7 +244,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="envelope" id="envelope">
+        <div class="envelope" id="envelope" role="button" aria-label="Open Valentine card" tabindex="0">
             <div class="envelope-back"></div>
             <div class="letter">
                 <div class="message">Will you be my Valentine? ❤️</div>
@@ -257,8 +262,19 @@
     <script>
         const envelope = document.getElementById('envelope');
         
-        envelope.addEventListener('click', function() {
-            this.classList.toggle('open');
+        function toggleEnvelope() {
+            envelope.classList.toggle('open');
+            const isOpen = envelope.classList.contains('open');
+            envelope.setAttribute('aria-label', isOpen ? 'Close Valentine card' : 'Open Valentine card');
+        }
+        
+        envelope.addEventListener('click', toggleEnvelope);
+        
+        envelope.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleEnvelope();
+            }
         });
     </script>
 </body>
