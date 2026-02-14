@@ -70,6 +70,32 @@
             z-index: 1;
         }
 
+        .envelope-left {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid #f0f0f0;
+            border-left: 150px solid #f0f0f0;
+            border-right: 0 solid transparent;
+            z-index: 2;
+        }
+
+        .envelope-right {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid #e8e8e8;
+            border-right: 150px solid #e8e8e8;
+            border-left: 0 solid transparent;
+            z-index: 2;
+        }
+
         .heart {
             position: absolute;
             top: 50%;
@@ -246,6 +272,8 @@
     <div class="container">
         <div class="envelope" id="envelope" role="button" aria-label="Open Valentine card" tabindex="0">
             <div class="envelope-back"></div>
+            <div class="envelope-left"></div>
+            <div class="envelope-right"></div>
             <div class="letter">
                 <div class="message">Will you be my Valentine? ❤️</div>
             </div>
