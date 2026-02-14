@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffd3e0 0%, #ffb3d9 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #f8f8f8;
+            transform-origin: top center;
+            transition: transform 0.6s ease;
+            z-index: 3;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #e8e8e8;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            z-index: 4;
+            transition: opacity 0.3s ease;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 30px;
+            height: 48px;
+            background: #ff4757;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .heart:before {
+            left: 15px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .envelope.open .heart {
+            opacity: 0;
+        }
+
+        .letter {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(0);
+            width: 250px;
+            height: 300px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            z-index: 2;
+            transition: transform 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .envelope:not(.open) .letter {
+            transform: translateX(-50%) translateY(80px);
+        }
+
+        .envelope.open .letter {
+            transform: translateX(-50%) translateY(-60px);
+        }
+
+        .message {
+            font-size: 28px;
+            color: #ff4757;
+            font-weight: bold;
+            line-height: 1.5;
+            opacity: 0;
+            transition: opacity 0.6s ease 0.3s;
+        }
+
+        .envelope.open .message {
+            opacity: 1;
+        }
+
+        .hearts-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+        }
+
+        .envelope.open .hearts-decoration {
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        .hearts-decoration:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .hearts-decoration:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .hearts-decoration:nth-child(3) {
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 1s;
+        }
+
+        .hearts-decoration:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 1.5s;
+        }
+
+        .hearts-decoration:before,
+        .hearts-decoration:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 10px;
+            height: 16px;
+            background: #ff4757;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .hearts-decoration:before {
+            left: 5px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .hearts-decoration:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 14px;
+            opacity: 0.8;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .envelope.open .click-hint {
+            display: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope" id="envelope">
+            <div class="envelope-back"></div>
+            <div class="letter">
+                <div class="message">Will you be my Valentine? ❤️</div>
+            </div>
+            <div class="envelope-flap"></div>
+            <div class="heart"></div>
+        </div>
+        <div class="click-hint">Click to open</div>
+        <div class="hearts-decoration"></div>
+        <div class="hearts-decoration"></div>
+        <div class="hearts-decoration"></div>
+        <div class="hearts-decoration"></div>
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        
+        envelope.addEventListener('click', function() {
+            this.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
