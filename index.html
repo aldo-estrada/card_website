@@ -395,6 +395,10 @@
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const successMessage = document.getElementById('successMessage');
+        const sadPopup = document.getElementById('sadPopup');
+        
+        let noScale = 1;
+        let yesScale = 1;
         
         function toggleEnvelope() {
             envelope.classList.toggle('open');
@@ -416,42 +420,32 @@
             successMessage.classList.add('show');
         });
 
-        // No button runs away from cursor
-        noBtn.addEventListener('mouseover', function() {
-            const maxX = window.innerWidth - noBtn.offsetWidth - 100;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 100;
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-            noBtn.style.zIndex = '50';
-        });
-
-        // No button shrinks and yes grows, plus shows image
-        let noScale = 1;
-        let yesScale = 1;
-        
-        noBtn.addEventListener('click', function(e) {
+        function handleNo(e) {
             e.stopPropagation();
-            noScale -= 0.2;
-            yesScale += 0.2;
+            e.preventDefault();
             
-            if (noScale <= 0.1) {
-                noBtn.style.display = 'none';
-            } else {
-                noBtn.style.transform = `scale(${noScale})`;
-            }
+            noScale = Math.max(0.1, noScale - 0.15);
+            yesScale += 0.15;
+            
+            noBtn.style.transform = `scale(${noScale})`;
             yesBtn.style.transform = `scale(${yesScale})`;
             
             // Show the image popup
-            const popup = document.getElementById('sadPopup');
-            popup.classList.add('show');
+            sadPopup.style.opacity = '1';
+            sadPopup.style.transform = 'translate(-50%, -50%) scale(1)';
+            
             setTimeout(() => {
-                popup.classList.remove('show');
-            }, 1500);
-        });
+                sadPopup.style.opacity = '0';
+                sadPopup.style.transform = 'translate(-50%, -50%) scale(0)';
+            }, 1200);
+            
+            if (noScale <= 0.2) {
+                noBtn.style.visibility = 'hidden';
+            }
+        }
+
+        noBtn.addEventListener('click', handleNo);
+        noBtn.addEventListener('touchend', handleNo);
     </script>
 </body>
 </html>
